@@ -1,2 +1,2 @@
 # cou
-a chage-world game
+a change-world game
