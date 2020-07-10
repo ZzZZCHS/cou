@@ -10,13 +10,13 @@ from Place import AmbushPoint
 
 from Player import Player
 
+import base
+
 def main():
-    placelist = []
-    playerlist = []
-    placelist.append(Market('shop'))
-    playerlist.append(Player('hhf', placelist[0]))
-    player1 = playerlist[0]
-    placelist[0].broken = 1
+    base.placelist.append(Market('shop'))
+    base.playerlist.append(Player('hhf', base.placelist[0]))
+    player1 = base.playerlist[0]
+    base.placelist[0].broken = 1
     player1.BuyKnife()
     print(player1.knife)
 

@@ -1,6 +1,8 @@
 from Place import Home
 from Place import OutsideHome
 
+import base
+
 class Person(object):
     """人物"""
 
@@ -45,23 +47,45 @@ class Player(Person):
     def MoveTo(self, plc):
         self.plc = plc
 
+    def OpenDoor(self):
+        if (self.plc.type == 0 and self.plc.door == 0): 
+            self.plc.door = 1
+            return
+        if (self.plc.type == 2):
+            for tmp in base.placelist:
+                if (tmp.type == 0 and tmp.owner == self.plc.owner and tmp.door == 0):
+                    tmp.door = 1
+            return
+        print('Invalid action!')
+
+    def CloseDoor(self):
+        if (self.plc.type == 0 and self.plc.door == 1):
+            self.plc.door = 0
+            return
+        if (self.plc.type == 2):
+            for tmp in base.placelist:
+                if (tmp.type == 0 and tmp.owner == self.plc.owner and tmp.door == 1):
+                    tmp.door = 0
+            return 
+        print('Invalid action!')
+
     def BuyGun(self):
         if (self.plc.type == 3 and not self.plc.broken or self.plc.type == 4):
             self.gun += 1
-        else:
-            print('Invalid action!')
+            return
+        print('Invalid action!')
 
     def BuyKnife(self):
         if (self.plc.type == 3 and not self.plc.broken or self.plc.type == 4):
             self.knife += 1
-        else:
-            print('Invalid action!')
+            return
+        print('Invalid action!')
 
     def BuyBiscuit(self):
         if (self.plc.type == 3 and not self.plc.broken or self.plc.type == 4):
             self.biscuit += 1
-        else:
-            print('Invalid action!')
+            return
+        print('Invalid action!')
 
 if __name__ == '__main__':
     pass
