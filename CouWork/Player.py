@@ -69,6 +69,78 @@ class Player(Person):
             return 
         print('Invalid action!')
 
+    def LockDoor(self):
+        if (self.plc.type == 0 and self.plc.door == 0):
+            self.plc.door = 2
+            return
+        print('Invalid action!')
+
+    def UnlockDoor(self):
+        if (self.plc.type == 2):
+            for tmp in base.placelist:
+                if (tmp.type == 0 and tmp.owner == self.plc.owner and tmp.door == 2):
+                    tmp.door = 0
+            return
+        print('Invalid action!')
+
+    def InstallWindow(self):
+        if (self.plc.type == 0 and self.plc.window == 0):
+            self.plc.window = 1
+            return
+        print('Invalid action!')
+
+    def BrokeWindow(self):
+        if (self.plc.type == 2):
+            for tmp in base.placelist:
+                if (tmp.type == 0 and tmp.owner == self.plc.owner and tmp.window == 1):
+                    tmp.window = 0
+            return 
+        print('Invalid action!')
+
+    def OpenCellarDoor(self):
+        if (self.plc.type == 1 and self.plc.door == 0):
+            self.plc.door = 1
+            return
+        if (self.plc.type == 0):
+            for tmp in base.placelist:
+                if (tmp.type == 1 and tmp.owner == self.plc.owner and tmp.door == 0):
+                    tmp.door = 1
+            return
+        print('Invalid action!')
+
+    def CloseCellarDoor(self):
+        if (self.plc.type == 1 and self.plc.door == 1):
+            self.plc.door = 0
+            return
+        if (self.plc.type == 0):
+            for tmp in base.placelist:
+                if (tmp.type == 1 and tmp.owner == self.plc.owner and tmp.door == 1):
+                    tmp.door = 0
+            return
+        print('Invalid action!')
+
+    def LockCellarDoor(self):
+        if (self.plc.type == 1 and self.plc.door == 0):
+            self.plc.door = 2
+            return
+        if (self.plc.type == 0):
+            for tmp in base.placelist:
+                if (tmp.type == 1 and tmp.owner == self.plc.owner and tmp.door == 0):
+                    tmp.door = 2
+            return
+        print('Invalid action!')
+
+    def UnlockCellarDoor(self):
+        if (self.plc.type == 1 and self.plc.door == 2):
+            self.plc.door = 0
+            return
+        if (self.plc.type == 0):
+            for tmp in base.placelist:
+                if (tmp.type == 1 and tmp.owner == self.plc.owner and tmp.door == 2):
+                    tmp.door = 0
+            return
+        print('Invalid action!')
+
     def BuyGun(self):
         if (self.plc.type == 3 and not self.plc.broken or self.plc.type == 4):
             self.gun += 1
