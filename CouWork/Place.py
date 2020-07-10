@@ -28,10 +28,10 @@ class Home(Place):
 
 
 class Cellar(Place):
-    def __init__(self, owner, type = 1, door_open = 0):
+    def __init__(self, owner, type = 1, door = 0):
         super().__init__(type)
         self.owner = owner
-        self.door_open = door_open
+        self.door = door
     
     def PrintName(self):
         print(self.owner + '\'s cellar', end = '')
@@ -39,10 +39,12 @@ class Cellar(Place):
     def PrintInfo(self):
         self.PrintName()
         print(':')
-        if (self.door_open):
-            print('    Door is open.')
+        if (self.door == 0):
+            print('    Cellar door is closed.')
+        elif (self.door == 1):
+            print('    Cellar door is open.')
         else:
-            print('    Door is closed.')
+            print('    Cellar door is locked.')
 
 class OutsideHome(Place):
     def __init__(self, owner, type = 2):
@@ -91,7 +93,7 @@ class OutsideCar(Place):
         super().__init__(type)
 
     def PrintName(self):
-        print('outside ' + self.owner + '\'s home')
+        print('outside ' + self.owner + '\'s home', end = '')
     
 class AmbushPoint(Place):
     def __init__(self, belong, owner, type = 7):
@@ -99,7 +101,12 @@ class AmbushPoint(Place):
         self.belong = belong
         self.owner = owner
 
+    def PrintName(self):
+        print(self.owner + '\'s ambush point', end = '')
+
 def main():
+    A = Home("hhf")
+    A.PrintInfo()
     pass
 
 if __name__ == '__main__':

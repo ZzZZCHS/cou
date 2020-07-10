@@ -1,0 +1,2 @@
+placelist = []
+playerlist = []
