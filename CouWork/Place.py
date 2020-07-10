@@ -4,6 +4,8 @@ class Place(object):
     
 class Home(Place):
     def __init__(self, owner, type = 0, door = 0, window = 0):
+        """   door    0:closed    1:open    2:locked  """
+        """   window  0:empty     1:installed         """
         super().__init__(type)
         self.owner = owner
         self.door = door
@@ -29,6 +31,7 @@ class Home(Place):
 
 class Cellar(Place):
     def __init__(self, owner, type = 1, door = 0):
+        """   door    0:closed    1:open    2:locked  """
         super().__init__(type)
         self.owner = owner
         self.door = door
