@@ -89,8 +89,8 @@ class Player(Person):
             return
         print('Invalid action!')
 
-    def BrokeWindow(self):
-        if (self.plc.type == 2):
+    def ShotWindow(self):
+        if (self.plc.type == 2 or self.plc.type == 6):
             for tmp in base.placelist:
                 if (tmp.type == 0 and tmp.owner == self.plc.owner and tmp.window == 1):
                     tmp.window = 0
