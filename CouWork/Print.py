@@ -12,21 +12,30 @@ from Player import Player
 
 import base
 
+import os
+
 def PrintPlaceInfo():
     N = base.playerNum
     for i in range(0, base.MarketNum):
-        base.marketlist[i].PrintInfo()
+        base.marketList[i].PrintInfo()
     print('---------------------------------------------------------')
     for i in range(0, N):
-        base.homelist[i].PrintInfo()
+        base.homeList[i].PrintInfo()
     print('---------------------------------------------------------')
     for i in range(0, N):
-        base.cellarlist[i].PrintInfo()
+        base.cellarList[i].PrintInfo()
     print('---------------------------------------------------------')
 
 def PrintPlayerInfo():
     N = base.playerNum
     for i in range(0, N):
-        base.playerlist[i].PrintInfo()
+        if (base.playerList[i].hp > 0):
+            base.playerList[i].PrintInfo()
     print('---------------------------------------------------------')
     
+def PrintInfo(turn):
+    os.system('clear')
+    print('Turn %d' % turn)
+    print('---------------------------------------------------------')
+    PrintPlaceInfo()
+    PrintPlayerInfo()

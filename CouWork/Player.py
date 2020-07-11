@@ -33,6 +33,9 @@ class Player(Person):
         self.aim = aim
         self.vislist = [1] * base.playerNum
 
+    def PrintName(self):
+        print('Player%d: %s' % (self.pid, self.name), end = '')
+
     def PrintInfo(self):
         print('Player%d: %s' % (self.pid + 1, self.name))
         print('    place: ', end = '')
@@ -42,278 +45,358 @@ class Player(Person):
         if (self.aim == -1):
             print('    no aim target')
         else:
-            print('    aim at Player%d: %s' % (self.aim + 1, base.playerlist[self.aim].name))
+            print('    aim at Player%d: %s' % (self.aim + 1, base.playerList[self.aim].name))
 
-    def MoveTo(self, plc):
-        self.plc = plc
-
-    def OpenDoor(self):
+    def OpenDoor(self, do = 0):
         if (self.plc.type == 0 and self.plc.door == 0): 
-            self.plc.door = 1
-            return
+            if (do):
+                self.plc.door = 1
+            return True
         if (self.plc.type == 2):
-            for tmp in base.homelist:
+            for tmp in base.homeList:
                 if (tmp.owner == self.plc.owner and tmp.door == 0):
-                    tmp.door = 1
-                    return
-        print('Invalid action!')
+                    if (do):
+                        tmp.door = 1
+                    return True
+        #print('Invalid action!')
+        return False
 
-    def CloseDoor(self):
+    def CloseDoor(self, do = 0):
         if (self.plc.type == 0 and self.plc.door == 1):
-            self.plc.door = 0
-            return
+            if (do):
+                self.plc.door = 0
+            return True
         if (self.plc.type == 2):
-            for tmp in base.homelist:
+            for tmp in base.homeList:
                 if (tmp.owner == self.plc.owner and tmp.door == 1):
-                    tmp.door = 0
-                    return 
-        print('Invalid action!')
+                    if (do):
+                        tmp.door = 0
+                    return True
+        #print('Invalid action!')
+        return False
 
-    def LockDoor(self):
+    def LockDoor(self, do = 0):
         if (self.plc.type == 0 and self.plc.door == 0):
-            self.plc.door = 2
-            return
-        print('Invalid action!')
+            if (do):
+                self.plc.door = 2
+            return True
+        #print('Invalid action!')
+        return False
 
-    def UnlockDoor(self):
+    def UnlockDoor(self, do = 0):
         if (self.plc.type == 2):
-            for tmp in base.homelist:
+            for tmp in base.homeList:
                 if (tmp.owner == self.plc.owner and tmp.door == 2):
-                    tmp.door = 0
-                    return
-        print('Invalid action!')
+                    if (do):
+                        tmp.door = 0
+                    return True
+        #print('Invalid action!')
+        return False
 
-    def InstallWindow(self):
+    def InstallWindow(self, do = 0):
         if (self.plc.type == 0 and self.plc.window == 0):
-            self.plc.window = 1
-            return
-        print('Invalid action!')
+            if (do):
+                self.plc.window = 1
+            return True
+        #print('Invalid action!')
+        return False
 
-    def ShotWindow(self):
+    def ShotWindow(self, do = 0):
         if (self.gun > 0 and (self.plc.type == 2 or self.plc.type == 6)):
-            for tmp in base.homelist:
+            for tmp in base.homeList:
                 if (tmp.owner == self.plc.owner and tmp.window == 1):
-                    tmp.window = 0
-                    return 
-        print('Invalid action!')
+                    if (do):
+                        tmp.window = 0
+                    return True
+        #print('Invalid action!')
+        return False
 
-    def DigCellar(self):
+    def DigCellar(self, do = 0):
         if (self.plc.type == 0):
-            for tmp in base.cellarlist:
+            for tmp in base.cellarList:
                 if (tmp.owner == self.plc.owner and tmp.door == 3):
-                    tmp.door = 1
-                    return
-        print('Invalid action!')
+                    if (do):
+                        tmp.door = 1
+                    return True
+        #print('Invalid action!')
+        return False
 
-    def OpenCellarDoor(self):
+    def OpenCellarDoor(self, do = 0):
         if (self.plc.type == 1 and self.plc.door == 0):
-            self.plc.door = 1
-            return
+            if (do):
+                self.plc.door = 1
+            return True
         if (self.plc.type == 0):
-            for tmp in base.cellarlist:
+            for tmp in base.cellarList:
                 if (tmp.owner == self.plc.owner and tmp.door == 0):
-                    tmp.door = 1
-                    return
-        print('Invalid action!')
+                    if (do):
+                        tmp.door = 1
+                    return True
+        #print('Invalid action!')
+        return False
 
-    def CloseCellarDoor(self):
+    def CloseCellarDoor(self, do = 0):
         if (self.plc.type == 1 and self.plc.door == 1):
-            self.plc.door = 0
-            return
+            if (do):
+                self.plc.door = 0
+            return True
         if (self.plc.type == 0):
-            for tmp in base.cellarlist:
+            for tmp in base.cellarList:
                 if (tmp.owner == self.plc.owner and tmp.door == 1):
-                    tmp.door = 0
-                    return
-        print('Invalid action!')
+                    if (do):
+                        tmp.door = 0
+                    return True
+        #print('Invalid action!')
+        return False
 
-    def LockCellarDoor(self):
+    def LockCellarDoor(self, do = 0):
         if (self.plc.type == 1 and self.plc.door == 0):
-            self.plc.door = 2
-            return
+            if (do):
+                self.plc.door = 2
+            return True
         if (self.plc.type == 0):
-            for tmp in base.cellarlist:
+            for tmp in base.cellarList:
                 if (tmp.owner == self.plc.owner and tmp.door == 0):
-                    tmp.door = 2
-                    return
-        print('Invalid action!')
+                    if (do):
+                        tmp.door = 2
+                    return True
+        #print('Invalid action!')
+        return False
 
-    def UnlockCellarDoor(self):
+    def UnlockCellarDoor(self, do = 0):
         if (self.plc.type == 1 and self.plc.door == 2):
-            self.plc.door = 0
-            return
+            if (do):
+                self.plc.door = 0
+            return True
         if (self.plc.type == 0):
-            for tmp in base.cellarlist:
+            for tmp in base.cellarList:
                 if (tmp.owner == self.plc.owner and tmp.door == 2):
-                    tmp.door = 0
-                    return
-        print('Invalid action!')
+                    if (do):
+                        tmp.door = 0
+                    return True
+        #print('Invalid action!')
+        return False
 
-    def PushIntoCellar(self, target):
+    def PushIntoCellar(self, target, do = 0):
         if (self.plc.type == 0 and target.plc.type == 0 and self.plc.owner == target.plc.owner):
-            for tmp in base.cellarlist:
+            for tmp in base.cellarList:
                 if (tmp.owner == self.plc.owner and tmp.door == 1):
-                    target.plc = base.cellarlist[base.cellarlist.index(tmp)]
-                    return
-        print('Invalid action!')
+                    if (do):
+                        target.plc = base.cellarList[base.cellarList.index(tmp)]
+                    return True
+        #print('Invalid action!')
+        return False
 
-    def PullOutCellar(self, target):
+    def PullOutCellar(self, target, do = 0):
         if (self.plc.type == 0 and target.plc.type == 1 and self.plc.owner == target.plc.owner and target.door == 1):
-            target.plc = self.plc
-            return
-        print('Invalid action!')
+            if (do):
+                target.plc = self.plc
+            return True
+        #print('Invalid action!')
+        return False
 
-    def GetOnCar(self):
-        car = base.carlist[self.pid]
+    def GetOnCar(self, do = 0):
+        car = base.carList[self.pid]
         if (self.cardone == 0):
             if (self.plc.type == 2 or self.plc.type == 6):
-                self.plc = car
-                return
+                if (do):
+                    self.plc = car
+                return True
             if (self.plc.type == 0 and self.plc.door == 1):
-                self.plc = car
-                return
-        print('Invalid action!')
+                if (do):
+                    self.plc = car
+                return True
+        #print('Invalid action!')
+        return False
 
-    def PullOffCar(self, target):
+    def PullOffCar(self, target, do = 0):
         if (target.plc.type == 5 and self.plc.type == 6 and self.plc.owner == target.name):
-            target.plc = base.outcarlist[target.pid]
-            return
-        print('Invalid action!')
+            if (do):
+                target.plc = base.outcarList[target.pid]
+            return True
+        #print('Invalid action!')
+        return False
 
-    def PushIntoHome(self, target):
+    def PushIntoHome(self, target, do = 0):
         if (target.plc.type == 2 and self.plc.type == 2 and self.plc.owner == target.plc.owner):
-            for tmp in base.homelist:
+            for tmp in base.homeList:
                 if (tmp.owner == self.plc.owner and tmp.door == 1):
-                    target.plc = base.homelist[base.homelist.index(tmp)]
-                    self.plc = target.plc
-                    return
+                    if (do):
+                        target.plc = base.homeList[base.homeList.index(tmp)]
+                        self.plc = target.plc
+                    return True
         if (target.plc.type == 6 and self.plc.type == 6 and self.plc.owner == target.plc.owner):
-            for tmp in base.homelist:
+            for tmp in base.homeList:
                 if (tmp.owner == self.plc.owner and tmp.door == 1):
-                    target.plc = base.homelist[base.homelist.index(tmp)]
-                    self.plc = target.plc
-                    return
-        print('Invalid action!')
+                    if (do):
+                        target.plc = base.homeList[base.homeList.index(tmp)]
+                        self.plc = target.plc
+                    return True
+        #print('Invalid action!')
+        return False
 
-    def BuyGun(self):
+    def BuyGun(self, do = 0):
         if (self.plc.type == 3 and not self.plc.broken or self.plc.type == 4):
-            self.gun += 1
-            return
-        print('Invalid action!')
+            if (do):
+                self.gun += 1
+            return True
+        #print('Invalid action!')
+        return False
 
-    def BuyKnife(self):
+    def BuyKnife(self, do = 0):
         if (self.plc.type == 3 and not self.plc.broken or self.plc.type == 4):
-            self.knife += 1
-            return
-        print('Invalid action!')
+            if (do):
+                self.knife += 1
+            return True
+        #print('Invalid action!')
+        return False
 
-    def BuyBiscuit(self):
+    def BuyBiscuit(self, do = 0):
         if (self.plc.type == 3 and not self.plc.broken or self.plc.type == 4):
-            self.biscuit += 1
-            return
-        print('Invalid action!')
+            if (do):
+                self.biscuit += 1
+            return True
+        #print('Invalid action!')
+        return False
 
-    def EatBiscuit(self):
+    def EatBiscuit(self, do = 0):
         if (self.biscuit > 0):
-            self.biscuit -= 1
-            self.hp += 1
-            if (self.hp > MAX_HP): self.hp = MAX_HP
-            return
-        print('Invalid action!')
+            if (do):
+                self.biscuit -= 1
+                self.hp += 1
+                if (self.hp > MAX_HP): self.hp = MAX_HP
+            return True
+        #print('Invalid action!')
+        return False
 
-    def BrokeMarket(self):
+    def BrokeMarket(self, do = 0):
         if (self.plc.type == 3 and not self.plc.broken):
-            self.plc.broken = 1
-            return
-        print('Invalid action!')
+            if (do):
+                self.plc.broken = 1
+            return True
+        #print('Invalid action!')
+        return False
 
-    def Stab(self, target):
+    def Stab(self, target, do = 0):
         if (self.plc == target.plc and self.knife > 0):
-            target.hp -= 1
-            return 
-        print('Invalid action!')
+            if (do):
+                target.hp -= 1
+                if (target.hp <= 0):
+                    base.alivePlayerNum -= 1
+            return True
+        #print('Invalid action!')
+        return False
 
-    def Shot(self, target):
+    def Shot(self, target, do = 0):
         if (self.gun == 0):
-            print('Invalid action!')
-            return
+            #print('Invalid action!')
+            return False
         if (self.aim == target.pid):
-            target.hp -= 1
-            return
-        print('Invalid action!')
+            if (do):
+                target.hp -= 1
+                if (target.hp <= 0):
+                    base.alivePlayerNum -= 1
+            return True
+        #print('Invalid action!')
+        return False
     
-    def Search(self, target):
+    def Search(self, target, do = 0):
         if (target.plc.type != 7 or self.gun == 0):
-            print('Invalid action!')
-            return
+            #print('Invalid action!')
+            return False
         if (target.plc.belong == self.plc):
-            self.vislist[target.pid] = 1
-            return
-        print('Invalid action!')
+            if (do):
+                self.vislist[target.pid] = 1
+            return True
+        #print('Invalid action!')
+        return False
     
-    def AimAt(self, target):
+    def AimAt(self, target, do = 0):
         if (self.gun == 0 or self.vislist[target.pid] == 0):
-            print('Invalid action!')
-            return
+            #print('Invalid action!')
+            return False
         if (target.plc.type == 7 and target.plc.belong == self.plc):
-            self.aim = target.pid
-            return
+            if (do):
+                self.aim = target.pid
+            return True
         if (self.plc == target.plc):
-            self.aim = target.pid
-            return
+            if (do):
+                self.aim = target.pid
+            return True
         if (self.plc.type == 0 and (target.plc.type == 2 or target.plc.type == 6) and self.plc.owner == target.plc.owner):
-            self.aim = target.pid
-            return
+            if (do):
+                self.aim = target.pid
+            return True
         if (self.plc.type == 2 and (target.plc.type == 0 or target.plc.type == 6) and self.plc.owner == target.plc.owner):
-            self.aim = target.pid
-            return
+            if (do):
+                self.aim = target.pid
+            return True
         if (self.plc.type == 6 and (target.plc.type == 2 or target.plc.type == 0) and self.plc.owner == target.plc.owner):
-            self.aim = target.pid
-            return
-        print('Invalid action!')
+            if (do):
+                self.aim = target.pid
+            return True
+        #print('Invalid action!')
+        return False
 
-    def Ambush(self, targetplc):
-        if (Move(self, targetplc)):
-            newAmbushPoint = base.ambushlist[self.pid - 1]
-            newAmbushPoint.belong = targetplc
-            self.plc = newAmbushPoint
-            return 
-        print('Invalid action!')
+    def Ambush(self, targetplc, do = 0):
+        if (self.Move(targetplc)):
+            if (do):
+                newAmbushPoint = base.ambushList[self.pid - 1]
+                newAmbushPoint.belong = targetplc
+                self.plc = newAmbushPoint
+            return True
+        #print('Invalid action!')
+        return False
 
-    def NewAmbush(self):
-        for tmp in base.playerlist:
+    def NewAmbush(self, do = 0):
+        if (not do): return True
+        for tmp in base.playerList:
             if (tmp.plc == self.plc):
-                oldAmbushPoint = base.ambushlist[tmp.pid - 1]
+                oldAmbushPoint = base.ambushList[tmp.pid - 1]
                 oldAmbushPoint.belong = self.plc.belong
-                for tt in base.playerlist:
+                for tt in base.playerList:
                     if (tt.plc == self.plc):
                         tt.plc = oldAmbushPoint
                 break
-
-def Move(plr, B):
-    A = plr.plc
-    if (A == B): return True
-    if (B.type == 5): return False
-    if (B.type == 6 and B.owner.plc.type != 5): return False
-    if (A.type == 0):
-        if (B.type == 1 and B.door == 1 and B.owner == A.owner): return True
-        if (A.door == 1 and plr.cardone == 1):
-            if (B.type > 1 or B.type == 0 and B.door == 1): return True
+    
+    def MoveTo(self, plc):
+        self.plc = plc
+    
+    def Move(self, B):
+        A = self.plc
+        if (A == B):
+            return True
+        if (B.type == 5):
+            return False
+        if (B.type == 6 and B.owner.plc.type != 5):
+            return False
+        if (A.type == 0):
+            if (B.type == 1 and B.door == 1 and B.owner == A.owner):
+                return True
+            if (A.door == 1 and self.cardone == 1):
+                if (B.type > 1 or B.type == 0 and B.door == 1):
+                    return True
+            return False
+        if (A.type == 1):
+            if (B.type == 0 and B.owner == A.owner and A.door == 1):
+                return True
+            return False
+        if (A.type == 2 or A.type == 6):
+            if (B.type == 0 and B.door == 1):
+                if (B.owner == A.owner or self.cardone == 1):
+                    return True
+            if (B.owner == A.owner and (B.type == 2 or B.type == 6)):
+                return True
+            if (B.type > 1 and self.cardone):
+                return True
+            return False
+        if (A.type >= 3):
+            if (B.type == 0 and B.door == 1):
+                return True
+            if (B.type > 1):
+                return True
+            return False
         return False
-    if (A.type == 1):
-        if (B.type == 0 and B.owner == A.owner and A.door == 1): return True
-        return False
-    if (A.type == 2 or A.type == 6):
-        if (B.type == 0 and B.door == 1):
-            if (B.owner == A.owner or plr.cardone == 1): return True
-        if (B.owner == A.owner and (B.type == 2 or B.type == 6)): return True
-        if (B.type > 1 and plr.cardone): return True
-        return False
-    if (A.type >= 3):
-        if (B.type == 0 and B.door == 1): return True
-        if (B.type > 1): return True
-        return False
-    return False
 
 if __name__ == '__main__':
     pass
