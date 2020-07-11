@@ -61,6 +61,7 @@ def main():
             if (tempInt == 0 and base.playerList[i].hp > 0):
                 base.RoundActionStep += 1
         if (base.RoundActionStep == 0 or base.RoundActionStep == base.alivePlayerNum):
+            Turn -= 1
             continue
 
         #回合优先级判断
@@ -85,11 +86,20 @@ def main():
             
             for step in range(0, base.RoundActionStep):
                 Print.PrintInfo(Turn)
-                print('Player%d: %s, it\'s your turn.' % (nowID, nowPlayer.name))
-                print('You have %d step(s) left.' % base.RoundActionStep - step)
-                Game.GameDesition(nowPlayer)
-                CommandIn = input('Your option:' % base.playerActionOrder[i])
-                Game.GameDesition(nowPlayer, CommandIn)
+                print('Player%d: %s, it\'s your turn.' % (nowID + 1, base.playerList[nowID].name))
+                print('You have %d step(s) left.' % (base.RoundActionStep - step))
+                Game.GameDecision(nowID)
+                CommandIn = int(input('Your option:'))
+                Game.GameDecision(nowID, CommandIn)
+                base.alivePlayerNum = Game.CountAlive()
+        
+        if (base.alivePlayerNum == 1):
+            for plr in base.playerList:
+                if (plr.hp > 0):
+                    print('Winner: ', end = '')
+                    plr.PrintName()
+                    input()
+            break
 
 if __name__ == '__main__':
     main()

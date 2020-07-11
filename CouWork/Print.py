@@ -34,7 +34,8 @@ def PrintPlayerInfo():
     print('---------------------------------------------------------')
     
 def PrintInfo(turn):
-    os.system('clear')
+    #os.system('clear')
+    print('#########################################################')
     print('Turn %d' % turn)
     print('---------------------------------------------------------')
     PrintPlaceInfo()

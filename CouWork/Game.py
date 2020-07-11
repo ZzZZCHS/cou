@@ -12,7 +12,8 @@ from Player import Player
 
 import base
 
-def GameDecision(plr, do = 0):
+def GameDecision(nowid, do = 0):
+    plr = base.playerList[nowid]
     now = 0
     if (plr.OpenDoor()):
         now += 1
@@ -188,6 +189,38 @@ def GameDecision(plr, do = 0):
                 print()
             if (do == now):
                 plr.AimAt(target, 1)
-    for targetplc in (base.homeList,base.outhomeList,base.carList,base.outcarList,
+    for placeList in (base.homeList,base.outhomeList,base.carList,base.outcarList,
                       base.marketList,base.bmarketList,base.cellarList,base.ambushList):
-        pass
+        for targetplc in placeList:
+            if (plr.Move(targetplc)):
+                now += 1
+                if (do == 0):
+                    print('%2d: move to ' % now, end = '')
+                    targetplc.PrintName()
+                    print()
+                if (do == now):
+                    plr.MoveTo(targetplc)
+    for placeList in (base.homeList, base.outhomeList, base.carList, base.outcarList,
+                      base.marketList, base.bmarketList, base.cellarList, base.ambushList):
+        for targetplc in placeList:
+            if (plr.Ambush(targetplc)):
+                now += 1
+                if (do == 0):
+                    print('%2d: ambush around ' % now, end='')
+                    targetplc.PrintName()
+                    print()
+                if (do == now):
+                    plr.Ambush(targetplc, 1)
+    if (plr.NewAmbush()):
+        now += 1
+        if (do == 0):
+            print('%2d: change a nearby place to ambush')
+        if (do == now):
+            plr.NewAmbush(1)
+
+def CountAlive():
+    num = 0
+    for plr in base.playerList:
+        if (plr.hp > 0):
+            num += 1
+    return num

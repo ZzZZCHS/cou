@@ -98,7 +98,7 @@ class OutsideCar(Place):
         super().__init__(type)
 
     def PrintName(self):
-        print('outside ' + self.owner.name + '\'s home', end = '')
+        print('outside ' + self.owner.name + '\'s car', end = '')
     
 class AmbushPoint(Place):
     def __init__(self, belong, owner, type = 7):
@@ -107,7 +107,9 @@ class AmbushPoint(Place):
         self.owner = owner
 
     def PrintName(self):
-        print(self.owner.name + '\'s ambush point', end = '')
+        print(self.owner.name + '\'s ambush point (belong to ', end = '')
+        self.belong.PrintName()
+        print(')', end = '')
 
 def main():
     A = Home("hhf")

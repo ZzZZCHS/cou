@@ -34,7 +34,7 @@ class Player(Person):
         self.vislist = [1] * base.playerNum
 
     def PrintName(self):
-        print('Player%d: %s' % (self.pid, self.name), end = '')
+        print('Player%d: %s' % (self.pid + 1, self.name), end = '')
 
     def PrintInfo(self):
         print('Player%d: %s' % (self.pid + 1, self.name))
@@ -178,6 +178,8 @@ class Player(Person):
         return False
 
     def PushIntoCellar(self, target, do = 0):
+        if (self == target):
+            return False
         if (self.plc.type == 0 and target.plc.type == 0 and self.plc.owner == target.plc.owner):
             for tmp in base.cellarList:
                 if (tmp.owner == self.plc.owner and tmp.door == 1):
@@ -188,7 +190,9 @@ class Player(Person):
         return False
 
     def PullOutCellar(self, target, do = 0):
-        if (self.plc.type == 0 and target.plc.type == 1 and self.plc.owner == target.plc.owner and target.door == 1):
+        if (self == target):
+            return False
+        if (self.plc.type == 0 and target.plc.type == 1 and self.plc.owner == target.plc.owner and target.plc.door == 1):
             if (do):
                 target.plc = self.plc
             return True
@@ -210,7 +214,9 @@ class Player(Person):
         return False
 
     def PullOffCar(self, target, do = 0):
-        if (target.plc.type == 5 and self.plc.type == 6 and self.plc.owner == target.name):
+        if (self == target):
+            return False
+        if (target.plc.type == 5 and self.plc.type == 6 and self.plc.owner == target):
             if (do):
                 target.plc = base.outcarList[target.pid]
             return True
@@ -218,6 +224,8 @@ class Player(Person):
         return False
 
     def PushIntoHome(self, target, do = 0):
+        if (self == target):
+            return False
         if (target.plc.type == 2 and self.plc.type == 2 and self.plc.owner == target.plc.owner):
             for tmp in base.homeList:
                 if (tmp.owner == self.plc.owner and tmp.door == 1):
@@ -278,6 +286,8 @@ class Player(Person):
         return False
 
     def Stab(self, target, do = 0):
+        if (self == target):
+            return False
         if (self.plc == target.plc and self.knife > 0):
             if (do):
                 target.hp -= 1
@@ -288,6 +298,8 @@ class Player(Person):
         return False
 
     def Shot(self, target, do = 0):
+        if (self == target):
+            return False
         if (self.gun == 0):
             #print('Invalid action!')
             return False
@@ -301,6 +313,8 @@ class Player(Person):
         return False
     
     def Search(self, target, do = 0):
+        if (self == target):
+            return False
         if (target.plc.type != 7 or self.gun == 0):
             #print('Invalid action!')
             return False
@@ -312,6 +326,8 @@ class Player(Person):
         return False
     
     def AimAt(self, target, do = 0):
+        if (self == target):
+            return False
         if (self.gun == 0 or self.vislist[target.pid] == 0):
             #print('Invalid action!')
             return False
@@ -339,6 +355,8 @@ class Player(Person):
         return False
 
     def Ambush(self, targetplc, do = 0):
+        if (self.plc.type == 5):
+            return False
         if (self.Move(targetplc)):
             if (do):
                 newAmbushPoint = base.ambushList[self.pid - 1]
@@ -349,6 +367,7 @@ class Player(Person):
         return False
 
     def NewAmbush(self, do = 0):
+        if (self.plc.type != 7): return False
         if (not do): return True
         for tmp in base.playerList:
             if (tmp.plc == self.plc):
@@ -360,15 +379,19 @@ class Player(Person):
                 break
     
     def MoveTo(self, plc):
+        if (self.plc.type == 5):
+            self.cardone = 1
         self.plc = plc
     
     def Move(self, B):
         A = self.plc
         if (A == B):
-            return True
+            return False
         if (B.type == 5):
             return False
-        if (B.type == 6 and B.owner.plc.type != 5):
+        if (B.type == 6 and (B.owner.plc.type != 5 or B.owner == A.owner)):
+            return False
+        if (B.type == 7 and B.owner.plc != B):
             return False
         if (A.type == 0):
             if (B.type == 1 and B.door == 1 and B.owner == A.owner):
@@ -385,7 +408,7 @@ class Player(Person):
             if (B.type == 0 and B.door == 1):
                 if (B.owner == A.owner or self.cardone == 1):
                     return True
-            if (B.owner == A.owner and (B.type == 2 or B.type == 6)):
+            if ((B.type == 2 or B.type == 6) and B.owner == A.owner):
                 return True
             if (B.type > 1 and self.cardone):
                 return True
