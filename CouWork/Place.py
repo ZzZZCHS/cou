@@ -5,8 +5,8 @@ class Place(object):
     
 class Home(Place):
     def __init__(self, owner, type = 0, door = 0, window = 0):
-        """   door    0:closed    1:open    2:locked  """
-        """   window  0:empty     1:installed         """
+        """   door    0:closed    1:open    2:locked  
+              window  0:empty     1:installed         """
         super().__init__(type)
         self.owner = owner
         self.door = door
@@ -31,7 +31,7 @@ class Home(Place):
 
 
 class Cellar(Place):
-    def __init__(self, owner, type = 1, door = 0):
+    def __init__(self, owner, type = 1, door = 3):
         """   door    0:closed    1:open    2:locked    3:does not exist  """
         super().__init__(type)
         self.owner = owner
@@ -41,7 +41,6 @@ class Cellar(Place):
         print(self.owner.name + '\'s cellar', end = '')
 
     def PrintInfo(self):
-        if (self.door == 3): return
         self.PrintName()
         print(':')
         if (self.door == 0):
@@ -50,6 +49,8 @@ class Cellar(Place):
             print('    Cellar door is open.')
         elif (self.door == 2):
             print('    Cellar door is locked.')
+        else:
+            print('    Cellar not exist.')
 
 class OutsideHome(Place):
     def __init__(self, owner, type = 2):

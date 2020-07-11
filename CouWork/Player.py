@@ -10,31 +10,8 @@ class Person(object):
     """人物"""
 
     def __init__(self, name, plc):
-        self._name = name
-        self._plc = plc
-
-    @property
-    def name(self):
-        return self._name
-
-    @property
-    def plc(self):
-        return self._plc
-
-    @name.setter
-    def name(self, name):
-        self._name = name
-
-    @plc.setter
-    def setplc(self, position):
-        self._plc = plc
-
-    def PrintName(self):
-        print(self.name, end = '')
-
-    @name.setter
-    def rename(self, name):
-        self._name = name
+        self.name = name
+        self.plc = plc
 
 
 class Player(Person):
@@ -57,14 +34,15 @@ class Player(Person):
         self.vislist = [1] * base.playerNum
 
     def PrintInfo(self):
-        print('Player%d: %s' % (self.pid, self.name))
+        print('Player%d: %s' % (self.pid + 1, self.name))
         print('    place: ', end = '')
         self.plc.PrintName()
+        print()
         print('    hp:%d  knife:%d  gun:%d  biscuit:%d  cardone:%d' % (self.hp, self.knife, self.gun, self.biscuit, self.cardone))
         if (self.aim == -1):
             print('    no aim target')
         else:
-            print('    aim at Player%d: %s' % (self.aim.pid, self.aim.name))
+            print('    aim at Player%d: %s' % (self.aim + 1, base.playerlist[self.aim].name))
 
     def MoveTo(self, plc):
         self.plc = plc
@@ -186,7 +164,7 @@ class Player(Person):
         print('Invalid action!')
 
     def GetOnCar(self):
-        car = base.carlist[self.pid - 1]
+        car = base.carlist[self.pid]
         if (self.cardone == 0):
             if (self.plc.type == 2 or self.plc.type == 6):
                 self.plc = car
@@ -198,7 +176,7 @@ class Player(Person):
 
     def PullOffCar(self, target):
         if (target.plc.type == 5 and self.plc.type == 6 and self.plc.owner == target.name):
-            target.plc = base.outcarlist[target.pid - 1]
+            target.plc = base.outcarlist[target.pid]
             return
         print('Invalid action!')
 
@@ -269,12 +247,12 @@ class Player(Person):
             print('Invalid action!')
             return
         if (target.plc.belong == self.plc):
-            self.vislist[target.pid - 1] = 1
+            self.vislist[target.pid] = 1
             return
         print('Invalid action!')
     
     def AimAt(self, target):
-        if (self.gun == 0 or self.vislist[target.pid - 1] == 0):
+        if (self.gun == 0 or self.vislist[target.pid] == 0):
             print('Invalid action!')
             return
         if (target.plc.type == 7 and target.plc.belong == self.plc):
