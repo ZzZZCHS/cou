@@ -330,6 +330,10 @@ class Player(Person):
             if (do):
                 self.vislist[target.pid] = 1
             return True
+        if (self.plc.type == 7 and self.plc.belong == target.plc.belong):
+            if (do):
+                self.vislist[target.pid] = 1
+            return True
         #print('Invalid action!')
         return False
     
@@ -344,6 +348,10 @@ class Player(Person):
                 self.aim = target.pid
             return True
         if (target.plc.type == 7 and target.plc.belong == self.plc):
+            if (do):
+                self.aim = target.pid
+            return True
+        if (self.plc.type == 7 and target.plc.type == 7 and self.plc.belong == target.plc.belong):
             if (do):
                 self.aim = target.pid
             return True
@@ -369,7 +377,7 @@ class Player(Person):
     def Ambush(self, targetplc, do = 0):
         if (self.plc.type == 5):
             return False
-        if (targetplc.type <= 1):
+        if (targetplc.type <= 1 or targetplc.type == 7):
             return False
         if (self.Move(targetplc) or self.plc == targetplc):
             if (do):
