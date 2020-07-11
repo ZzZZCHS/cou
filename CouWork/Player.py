@@ -45,7 +45,7 @@ class Player(Person):
         """ pid       the id of the player           """
         """ cardone   whether finish the car driving """
         """ vislist   the visibility of each player  """
-        """ aim       -1: no aim target   0 ~ playernum-1: the aim player id """
+        """ aim       -1: no aim target   0 ~ playerNum-1: the aim player id """
         super().__init__(name, plc)
         self.pid = pid
         self.hp = hp
@@ -54,7 +54,7 @@ class Player(Person):
         self.gun = gun
         self.cardone = cardone
         self.aim = aim
-        self.vislist = [1] * base.playernum
+        self.vislist = [1] * base.playerNum
 
     def MoveTo(self, plc):
         self.plc = plc
