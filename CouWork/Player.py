@@ -373,7 +373,7 @@ class Player(Person):
             return False
         if (self.Move(targetplc) or self.plc == targetplc):
             if (do):
-                newAmbushPoint = base.ambushList[self.pid - 1]
+                newAmbushPoint = base.ambushList[self.pid]
                 newAmbushPoint.belong = targetplc
                 self.plc = newAmbushPoint
                 for plr in base.playerList:
