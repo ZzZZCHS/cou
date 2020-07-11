@@ -45,7 +45,7 @@ class Player(Person):
         """ pid       the id of the player           """
         """ cardone   whether finish the car driving """
         """ vislist   the visibility of each player  """
-        """ aim       -1: no aim target   0 ~ playerNum-1: the aim player id """
+        """ aim       -1: no aim target   0 ~ playernum-1: the aim player id """
         super().__init__(name, plc)
         self.pid = pid
         self.hp = hp
@@ -55,6 +55,16 @@ class Player(Person):
         self.cardone = cardone
         self.aim = aim
         self.vislist = [1] * base.playerNum
+
+    def PrintInfo(self):
+        print('Player%d: %s' % (self.pid, self.name))
+        print('    place: ', end = '')
+        self.plc.PrintName()
+        print('    hp:%d  knife:%d  gun:%d  biscuit:%d  cardone:%d' % (self.hp, self.knife, self.gun, self.biscuit, self.cardone))
+        if (self.aim == -1):
+            print('    no aim target')
+        else:
+            print('    aim at Player%d: %s' % (self.aim.pid, self.aim.name))
 
     def MoveTo(self, plc):
         self.plc = plc
@@ -197,12 +207,13 @@ class Player(Person):
             for tmp in base.homelist:
                 if (tmp.owner == self.plc.owner and tmp.door == 1):
                     target.plc = base.homelist[base.homelist.index(tmp)]
+                    self.plc = target.plc
                     return
         if (target.plc.type == 6 and self.plc.type == 6 and self.plc.owner == target.plc.owner):
             for tmp in base.homelist:
                 if (tmp.owner == self.plc.owner and tmp.door == 1):
                     target.plc = base.homelist[base.homelist.index(tmp)]
-                    self.plc = base.outhomelist[self.plc.owner.pid - 1]
+                    self.plc = target.plc
                     return
         print('Invalid action!')
 
@@ -248,9 +259,83 @@ class Player(Person):
         if (self.gun == 0):
             print('Invalid action!')
             return
-        if (self.plc == target.plc or self.aim == target.pid):
+        if (self.aim == target.pid):
             target.hp -= 1
             return
+        print('Invalid action!')
+    
+    def Search(self, target):
+        if (target.plc.type != 7 or self.gun == 0):
+            print('Invalid action!')
+            return
+        if (target.plc.belong == self.plc):
+            self.vislist[target.pid - 1] = 1
+            return
+        print('Invalid action!')
+    
+    def AimAt(self, target):
+        if (self.gun == 0 or self.vislist[target.pid - 1] == 0):
+            print('Invalid action!')
+            return
+        if (target.plc.type == 7 and target.plc.belong == self.plc):
+            self.aim = target.pid
+            return
+        if (self.plc == target.plc):
+            self.aim = target.pid
+            return
+        if (self.plc.type == 0 and (target.plc.type == 2 or target.plc.type == 6) and self.plc.owner == target.plc.owner):
+            self.aim = target.pid
+            return
+        if (self.plc.type == 2 and (target.plc.type == 0 or target.plc.type == 6) and self.plc.owner == target.plc.owner):
+            self.aim = target.pid
+            return
+        if (self.plc.type == 6 and (target.plc.type == 2 or target.plc.type == 0) and self.plc.owner == target.plc.owner):
+            self.aim = target.pid
+            return
+        print('Invalid action!')
+
+    def Ambush(self, targetplc):
+        if (Move(self, targetplc)):
+            newAmbushPoint = base.ambushlist[self.pid - 1]
+            newAmbushPoint.belong = targetplc
+            self.plc = newAmbushPoint
+            return 
+        print('Invalid action!')
+
+    def NewAmbush(self):
+        for tmp in base.playerlist:
+            if (tmp.plc == self.plc):
+                oldAmbushPoint = base.ambushlist[tmp.pid - 1]
+                oldAmbushPoint.belong = self.plc.belong
+                for tt in base.playerlist:
+                    if (tt.plc == self.plc):
+                        tt.plc = oldAmbushPoint
+                break
+
+def Move(plr, B):
+    A = plr.plc
+    if (A == B): return True
+    if (B.type == 5): return False
+    if (B.type == 6 and B.owner.plc.type != 5): return False
+    if (A.type == 0):
+        if (B.type == 1 and B.door == 1 and B.owner == A.owner): return True
+        if (A.door == 1 and plr.cardone == 1):
+            if (B.type > 1 or B.type == 0 and B.door == 1): return True
+        return False
+    if (A.type == 1):
+        if (B.type == 0 and B.owner == A.owner and A.door == 1): return True
+        return False
+    if (A.type == 2 or A.type == 6):
+        if (B.type == 0 and B.door == 1):
+            if (B.owner == A.owner or plr.cardone == 1): return True
+        if (B.owner == A.owner and (B.type == 2 or B.type == 6)): return True
+        if (B.type > 1 and plr.cardone): return True
+        return False
+    if (A.type >= 3):
+        if (B.type == 0 and B.door == 1): return True
+        if (B.type > 1): return True
+        return False
+    return False
 
 if __name__ == '__main__':
     pass
