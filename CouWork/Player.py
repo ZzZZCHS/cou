@@ -264,7 +264,7 @@ class Player(Person):
         return False
 
     def BuyBiscuit(self, do = 0):
-        if (self.plc.type == 3 and not self.plc.broken or self.plc.type == 4):
+        if (self.plc.type == 3 and not self.plc.broken):
             if (do):
                 self.biscuit += 1
             return True
