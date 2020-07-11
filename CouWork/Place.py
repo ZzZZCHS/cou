@@ -61,10 +61,11 @@ class OutsideHome(Place):
         print('outside ' + self.owner.name + '\'s home', end = '')
 
 class Market(Place):
-    def __init__(self, name, type = 3, broken = 0):
+    def __init__(self, name, type = 3, broken = 0, owner = 'God'):
         super().__init__(type)
         self.name = name
         self.broken = broken
+        self.owner = owner
 
     def PrintName(self):
         print(self.name, end = '')
@@ -77,9 +78,10 @@ class Market(Place):
             print(' is open.')
 
 class BlackMarket(Place):
-    def __init__(self, name = 'Black Market', type = 4):
+    def __init__(self, name = 'Black Market', type = 4, owner = 'God'):
         super().__init__(type)
         self.name = name
+        self.owner = owner
     
     def PrintName(self):
         print(self.name, end = '')
