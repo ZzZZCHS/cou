@@ -1,2 +1,3 @@
 # cou
-a change-world game
+a world-changing game
+
