@@ -82,10 +82,9 @@ class BlackMarket(Place):
         print(self.name, end = '')
 
 class Car(Place):
-    def __init__(self, owner, type = 5, door_open = 0):
+    def __init__(self, owner, type = 5):
         self.owner = owner
         super().__init__(type)
-        self.door_open = door_open
         
     def PrintName(self):
         print(self.owner + '\'s car', end = '')
