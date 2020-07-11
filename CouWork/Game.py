@@ -15,6 +15,7 @@ import base
 def GameDecision(nowid, do = 0):
     plr = base.playerList[nowid]
     now = 0
+    FLAG = 1
     if (plr.OpenDoor()):
         now += 1
         if (do == 0):
@@ -188,6 +189,7 @@ def GameDecision(nowid, do = 0):
                 target.PrintName()
                 print()
             if (do == now):
+                FLAG = 0
                 plr.AimAt(target, 1)
     for placeList in (base.homeList,base.outhomeList,base.carList,base.outcarList,
                       base.marketList,base.bmarketList,base.cellarList,base.ambushList):
@@ -217,6 +219,8 @@ def GameDecision(nowid, do = 0):
             print('%2d: change a nearby place to ambush' % now)
         if (do == now):
             plr.NewAmbush(1)
+    if (FLAG and do > 0):
+        plr.aim = -1
 
 def CountAlive():
     num = 0
