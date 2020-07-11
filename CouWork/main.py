@@ -13,8 +13,8 @@ from Player import Player
 import base
 
 def main():
-    base.placelist.append(Market('shop'))
-    base.playerlist.append(Player('hhf', base.placelist[0]))
+    base.marketlist.append(Market('shop'))
+    base.playerlist.append(Player('hhf', base.marketlist[0]))
     player1 = base.playerlist[0]
     base.placelist[0].broken = 1
     player1.BuyKnife()

@@ -1,5 +1,6 @@
 from Place import Home
 from Place import OutsideHome
+from Place import Car
 
 import base
 
@@ -37,12 +38,14 @@ class Person(object):
 class Player(Person):
     """玩家"""
 
-    def __init__(self, name, plc, hp = 3, knife = 0, biscuit = 0, gun = 0):
+    def __init__(self, name, pid, plc, hp = 3, knife = 0, biscuit = 0, gun = 0, cardone = 0):
         super().__init__(name, plc)
+        self.pid = pid
         self.hp = hp
         self.knife = knife
         self.biscuit = biscuit
         self.gun = gun
+        self.cardone = cardone
 
     def MoveTo(self, plc):
         self.plc = plc
@@ -52,8 +55,8 @@ class Player(Person):
             self.plc.door = 1
             return
         if (self.plc.type == 2):
-            for tmp in base.placelist:
-                if (tmp.type == 0 and tmp.owner == self.plc.owner and tmp.door == 0):
+            for tmp in base.homelist:
+                if (tmp.owner == self.plc.owner and tmp.door == 0):
                     tmp.door = 1
             return
         print('Invalid action!')
@@ -63,8 +66,8 @@ class Player(Person):
             self.plc.door = 0
             return
         if (self.plc.type == 2):
-            for tmp in base.placelist:
-                if (tmp.type == 0 and tmp.owner == self.plc.owner and tmp.door == 1):
+            for tmp in base.homelist:
+                if (tmp.owner == self.plc.owner and tmp.door == 1):
                     tmp.door = 0
             return 
         print('Invalid action!')
@@ -77,8 +80,8 @@ class Player(Person):
 
     def UnlockDoor(self):
         if (self.plc.type == 2):
-            for tmp in base.placelist:
-                if (tmp.type == 0 and tmp.owner == self.plc.owner and tmp.door == 2):
+            for tmp in base.homelist:
+                if (tmp.owner == self.plc.owner and tmp.door == 2):
                     tmp.door = 0
             return
         print('Invalid action!')
@@ -90,9 +93,9 @@ class Player(Person):
         print('Invalid action!')
 
     def ShotWindow(self):
-        if (self.plc.type == 2 or self.plc.type == 6):
-            for tmp in base.placelist:
-                if (tmp.type == 0 and tmp.owner == self.plc.owner and tmp.window == 1):
+        if (self.gun > 0 and (self.plc.type == 2 or self.plc.type == 6)):
+            for tmp in base.homelist:
+                if (tmp.owner == self.plc.owner and tmp.window == 1):
                     tmp.window = 0
             return 
         print('Invalid action!')
@@ -102,8 +105,8 @@ class Player(Person):
             self.plc.door = 1
             return
         if (self.plc.type == 0):
-            for tmp in base.placelist:
-                if (tmp.type == 1 and tmp.owner == self.plc.owner and tmp.door == 0):
+            for tmp in base.cellarlist:
+                if (tmp.owner == self.plc.owner and tmp.door == 0):
                     tmp.door = 1
             return
         print('Invalid action!')
@@ -113,8 +116,8 @@ class Player(Person):
             self.plc.door = 0
             return
         if (self.plc.type == 0):
-            for tmp in base.placelist:
-                if (tmp.type == 1 and tmp.owner == self.plc.owner and tmp.door == 1):
+            for tmp in base.cellarlist:
+                if (tmp.owner == self.plc.owner and tmp.door == 1):
                     tmp.door = 0
             return
         print('Invalid action!')
@@ -124,8 +127,8 @@ class Player(Person):
             self.plc.door = 2
             return
         if (self.plc.type == 0):
-            for tmp in base.placelist:
-                if (tmp.type == 1 and tmp.owner == self.plc.owner and tmp.door == 0):
+            for tmp in base.cellarlist:
+                if (tmp.owner == self.plc.owner and tmp.door == 0):
                     tmp.door = 2
             return
         print('Invalid action!')
@@ -135,10 +138,21 @@ class Player(Person):
             self.plc.door = 0
             return
         if (self.plc.type == 0):
-            for tmp in base.placelist:
-                if (tmp.type == 1 and tmp.owner == self.plc.owner and tmp.door == 2):
+            for tmp in base.cellarlist:
+                if (tmp.owner == self.plc.owner and tmp.door == 2):
                     tmp.door = 0
             return
+        print('Invalid action!')
+
+    def GetOnCar(self):
+        car = base.carlist[self.pid-1]
+        if (self.cardone == 0):
+            if (self.plc.type == 2 or self.plc.type == 6):
+                self.plc = car
+                return
+            if (self.plc.type == 0 and self.plc.door == 1):
+                self.plc = car
+                return
         print('Invalid action!')
 
     def BuyGun(self):
@@ -156,6 +170,12 @@ class Player(Person):
     def BuyBiscuit(self):
         if (self.plc.type == 3 and not self.plc.broken or self.plc.type == 4):
             self.biscuit += 1
+            return
+        print('Invalid action!')
+
+    def BrokeMarket(self):
+        if (self.plc.type == 3 and not self.plc.broken):
+            self.plc.broken = 1
             return
         print('Invalid action!')
 
