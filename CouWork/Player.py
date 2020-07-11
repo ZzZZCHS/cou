@@ -363,7 +363,7 @@ class Player(Person):
             return False
         if (targetplc.type <= 1):
             return False
-        if (self.Move(targetplc)):
+        if (self.Move(targetplc) or self.plc == targetplc):
             if (do):
                 newAmbushPoint = base.ambushList[self.pid - 1]
                 newAmbushPoint.belong = targetplc
