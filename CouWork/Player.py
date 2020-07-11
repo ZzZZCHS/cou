@@ -408,6 +408,9 @@ class Player(Person):
         if (self.plc.type == 5):
             self.cardone = 1
         self.plc = plc
+        for plr in base.playerList:
+            if (plr.aim == self.pid):
+                plr.aim = -1
     
     def Move(self, B):
         A = self.plc
