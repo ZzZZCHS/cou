@@ -187,8 +187,12 @@ class Player(Person):
         if (self.plc.type == 0 and target.plc.type == 0 and self.plc.owner == target.plc.owner):
             for tmp in base.cellarList:
                 if (tmp.owner == self.plc.owner and tmp.door == 1):
-                    if (do):
-                        target.plc = base.cellarList[base.cellarList.index(tmp)]
+                    flag = 0
+                    for plr in base.playerList:
+                        if (plr.plc == tmp): flag += 1
+                    if (flag == 0):
+                        if (do):
+                            target.plc = base.cellarList[base.cellarList.index(tmp)]
                     return True
         #print('Invalid action!')
         return False
@@ -335,6 +339,10 @@ class Player(Person):
         if (self.gun == 0 or self.vislist[target.pid] == 0):
             #print('Invalid action!')
             return False
+        if (self.plc.type == 7 and target.plc == self.plc.belong):
+            if (do):
+                self.aim = target.pid
+            return True
         if (target.plc.type == 7 and target.plc.belong == self.plc):
             if (do):
                 self.aim = target.pid
@@ -368,6 +376,8 @@ class Player(Person):
                 newAmbushPoint = base.ambushList[self.pid - 1]
                 newAmbushPoint.belong = targetplc
                 self.plc = newAmbushPoint
+                for plr in base.playerList:
+                    plr.vislist[self.pid] = 0
             return True
         #print('Invalid action!')
         return False
@@ -382,6 +392,8 @@ class Player(Person):
                 for tt in base.playerList:
                     if (tt.plc == self.plc):
                         tt.plc = oldAmbushPoint
+                for plr in base.playerList:
+                    plr.vislist[self.pid] = 0
                 break
     
     def MoveTo(self, plc):
@@ -393,6 +405,10 @@ class Player(Person):
         A = self.plc
         if (A == B):
             return False
+        if (B.type == 1):
+            for plr in base.playerList:
+                if (plr.plc == B):
+                    return False
         if (B.type == 5):
             return False
         if (B.type == 6 and (B.owner.plc.type != 5 or B.owner == A.owner)):

@@ -214,7 +214,7 @@ def GameDecision(nowid, do = 0):
     if (plr.NewAmbush()):
         now += 1
         if (do == 0):
-            print('%2d: change a nearby place to ambush')
+            print('%2d: change a nearby place to ambush' % now)
         if (do == now):
             plr.NewAmbush(1)
 
