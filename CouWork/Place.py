@@ -1,6 +1,7 @@
 class Place(object):
     def __init__(self, type):
         self.type = type
+        """ type  0:home  1:cellar  2:outsidehome  3:market  4:blackmarket  5:car  6:ousidecar  7:ambushpoint """
     
 class Home(Place):
     def __init__(self, owner, type = 0, door = 0, window = 0):
@@ -12,7 +13,7 @@ class Home(Place):
         self.window = window
 
     def PrintName(self):
-        print(self.owner + '\'s home', end = '')
+        print(self.owner.name + '\'s home', end = '')
 
     def PrintInfo(self):
         self.PrintName()
@@ -31,22 +32,23 @@ class Home(Place):
 
 class Cellar(Place):
     def __init__(self, owner, type = 1, door = 0):
-        """   door    0:closed    1:open    2:locked  """
+        """   door    0:closed    1:open    2:locked    3:does not exist  """
         super().__init__(type)
         self.owner = owner
         self.door = door
     
     def PrintName(self):
-        print(self.owner + '\'s cellar', end = '')
+        print(self.owner.name + '\'s cellar', end = '')
 
     def PrintInfo(self):
+        if (self.door == 3): return
         self.PrintName()
         print(':')
         if (self.door == 0):
             print('    Cellar door is closed.')
         elif (self.door == 1):
             print('    Cellar door is open.')
-        else:
+        elif (self.door == 2):
             print('    Cellar door is locked.')
 
 class OutsideHome(Place):
@@ -55,7 +57,7 @@ class OutsideHome(Place):
         self.owner = owner
 
     def PrintName(self):
-        print('outside ' + self.owner + '\'s home', end = '')
+        print('outside ' + self.owner.name + '\'s home', end = '')
 
 class Market(Place):
     def __init__(self, name, type = 3, broken = 0):
@@ -87,7 +89,7 @@ class Car(Place):
         super().__init__(type)
         
     def PrintName(self):
-        print(self.owner + '\'s car', end = '')
+        print(self.owner.name + '\'s car', end = '')
 
 class OutsideCar(Place):
     def __init__(self, owner, type = 6):
@@ -95,7 +97,7 @@ class OutsideCar(Place):
         super().__init__(type)
 
     def PrintName(self):
-        print('outside ' + self.owner + '\'s home', end = '')
+        print('outside ' + self.owner.name + '\'s home', end = '')
     
 class AmbushPoint(Place):
     def __init__(self, belong, owner, type = 7):
@@ -104,7 +106,7 @@ class AmbushPoint(Place):
         self.owner = owner
 
     def PrintName(self):
-        print(self.owner + '\'s ambush point', end = '')
+        print(self.owner.name + '\'s ambush point', end = '')
 
 def main():
     A = Home("hhf")
