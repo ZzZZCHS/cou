@@ -90,6 +90,10 @@ class Player(Person):
                     if (do):
                         tmp.door = 0
                     return True
+        if (self.plc.type == 1 and self.plc.door == 2):
+            if (do):
+                self.plc.door = 0
+            return True
         #print('Invalid action!')
         return False
 
@@ -356,6 +360,8 @@ class Player(Person):
 
     def Ambush(self, targetplc, do = 0):
         if (self.plc.type == 5):
+            return False
+        if (targetplc.type <= 1):
             return False
         if (self.Move(targetplc)):
             if (do):
