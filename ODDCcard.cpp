@@ -43,18 +43,18 @@ void preparecard(int x)
 		{
 			flag=1;t=0;
 			for (i=1;i<=10;i++)
-			for (j=1;j<=TP[r][i];j++)
-			{
-				t++;KU[t][1][x]=i;
-				KU[t][2][x]=rand()%1000;
-			}
+			    for (j=1;j<=TP[r][i];j++)
+			    {
+				    t++;KU[t][1][x]=i;
+				    KU[t][2][x]=rand()%1000;
+			    }
 			for (i=1;i<=29;i++)
-			for (j=i+1;j<=30;j++)
-			if (KU[i][2][x]>KU[j][2][x])
-			{
-				r=KU[i][1][x];KU[i][1][x]=KU[j][1][x];KU[j][1][x]=r;
-				r=KU[i][2][x];KU[i][2][x]=KU[j][2][x];KU[j][2][x]=r;
-			}
+			    for (j=i+1;j<=30;j++)
+			        if (KU[i][2][x]>KU[j][2][x])
+			        {
+				        r=KU[i][1][x];KU[i][1][x]=KU[j][1][x];KU[j][1][x]=r;
+				        r=KU[i][2][x];KU[i][2][x]=KU[j][2][x];KU[j][2][x]=r;
+			        }
 //			cout<<"玩家"<<x<<"的牌库是"<<endl;
 //			for (i=1;i<=30;i++)
 //			cout<<Cardname[KU[i][1][x]]<<" ";
@@ -107,19 +107,20 @@ void actionjudge(int x)
 		{
 			flag=1;
 			for (i=1;i<=totalnum;i++)
-			if (player[i].health>0)
-			{
-			    if (suiji[i]==1)
+			    if (player[i].health>0)
 			    {
-				    usernum++;
-				    ord[usernum]=i;
-				    player[i].action=2*t;
-				    if (2*t>6) player[i].action=6;
-			    }
-			    else {
-				    player[i].action=-1;
-			    }
-		    }
+			        if (suiji[i]==1)
+			        {
+				        usernum++;
+				        ord[usernum]=i;
+				        player[i].action=2*t;
+				        if (2*t>6) player[i].action=6;
+			        }
+			        else 
+					{
+				        player[i].action=-1;
+			        }
+		        }
 		}
 	}
 	return;
@@ -134,12 +135,12 @@ void xirupaiku(int x)
 		KU[R[x]][2][x]=rand()%1000;
 	}
 	for (i=1;i<=R[x]-1;i++)
-	for (j=i+1;j<=R[x];j++)
-	if (KU[i][2][x]>KU[j][2][x])
-	{
-		r=KU[i][1][x];KU[i][1][x]=KU[j][1][x];KU[j][1][x]=r;
-		r=KU[i][2][x];KU[i][2][x]=KU[j][2][x];KU[j][2][x]=r;
-	}
+	    for (j=i+1;j<=R[x];j++)
+	        if (KU[i][2][x]>KU[j][2][x])
+	        {
+		        r=KU[i][1][x];KU[i][1][x]=KU[j][1][x];KU[j][1][x]=r;
+		        r=KU[i][2][x];KU[i][2][x]=KU[j][2][x];KU[j][2][x]=r;
+	        }
 	return;
 }
 void drawcards(int x)
@@ -231,12 +232,12 @@ int main()
 				}
 			} 
 	    	for (i=1;i<=playernum;i++)
-	    	preparecard(i);
+	    	    preparecard(i);
 	    	for (i=1;i<=playernum;i++)
-	    	fapai(i);
+	    	    fapai(i);
 	    	flaG1=0;
 	    	for (i=1;i<=playernum;i++)
-	    	player[i].health=4;
+	    	    player[i].health=4;
 	    	huihe=0;
 	    	while (flaG1==0)
 	    	{
@@ -247,19 +248,19 @@ int main()
 	    		drawcards(playernum);
 	    		cout<<"玩家"<<1<<"的套牌手牌为："<<endl;
              	for (i=1;i<=cardnum[1];i++)
-            	cout<<Cardname[hand[i][1]]<<" ";
+            	    cout<<Cardname[hand[i][1]]<<" ";
             	cout<<endl;
             	cout<<"玩家"<<2<<"的衍生手牌为："<<endl;
             	for (i=1;i<=cardNum[2];i++)
-	            cout<<Cardname[HAND[i][2]]<<" ";
+	                cout<<Cardname[HAND[i][2]]<<" ";
             	cout<<endl;
 	    		break;
 //	    		decideorder(usernum);
 //	    		for (i=1;i<=usernum;i++)
-//	    		usecards(ord[i]);
+//	    		    usecards(ord[i]);
 //	    		if (playernum<2) flaG1=1;
 //	    		for (i=1;i<=playernum;i++)
-//	    		abandoncards(i);
+//	    		    abandoncards(i);
 //	    		if (playernum<2) flaG1=1;
 			}
 	    }
