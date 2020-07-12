@@ -88,8 +88,10 @@ def main():
                 Print.PrintInfo(Turn)
                 print('Player%d: %s, it\'s your turn.' % (nowID + 1, base.playerList[nowID].name))
                 print('You have %d step(s) left.' % (base.RoundActionStep - step))
-                Game.GameDecision(nowID)
+                NothingID = Game.GameDecision(nowID)
                 CommandIn = int(input('Your option:'))
+                if (CommandIn == NothingID):
+                    break
                 Game.GameDecision(nowID, CommandIn)
                 base.alivePlayerNum = Game.CountAlive()
         

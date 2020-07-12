@@ -221,6 +221,9 @@ def GameDecision(nowid, do = 0):
             plr.NewAmbush(1)
     if (FLAG and do > 0):
         plr.aim = -1
+    now += 1
+    print('%2d: do nothing' % now)
+    return now
 
 def CountAlive():
     num = 0
