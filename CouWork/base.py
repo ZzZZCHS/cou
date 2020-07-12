@@ -1,3 +1,29 @@
+from enum import IntEnum, unique
+
+@unique
+class PlaceType(IntEnum):
+    Home = 0
+    Cellar = 1
+    OutsideHome = 2
+    Market = 3
+    BlackMarket = 4
+    Car = 5
+    OutsideCar = 6
+    AmbushPoint = 7
+
+@unique
+class Door(IntEnum):
+    Closed = 0
+    Open = 1
+    Locked = 2
+    NotExist = 3
+
+@unique
+class Window(IntEnum):
+    Empty = 0
+    Installed = 1
+
+
 homeList = []
 outhomeList = []
 cellarList = []

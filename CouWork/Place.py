@@ -1,12 +1,11 @@
+import base
+
 class Place(object):
     def __init__(self, type):
         self.type = type
-        """ type  0:home  1:cellar  2:outsidehome  3:market  4:blackmarket  5:car  6:ousidecar  7:ambushpoint """
     
 class Home(Place):
-    def __init__(self, owner, type = 0, door = 0, window = 0):
-        """   door    0:closed    1:open    2:locked  
-              window  0:empty     1:installed         """
+    def __init__(self, owner, type = base.PlaceType.Home, door = base.Door.Closed, window = base.Window.Empty):
         super().__init__(type)
         self.owner = owner
         self.door = door
@@ -18,21 +17,20 @@ class Home(Place):
     def PrintInfo(self):
         self.PrintName()
         print(':')
-        if (self.door == 0):
+        if (self.door == base.Door.Closed):
             print('    Door is closed.')
-        elif (self.door == 1):
+        elif (self.door == base.Door.Open):
             print('    Door is open.')
         else:
             print('    Door is locked.')
-        if (self.window):
+        if (self.window == base.Window.Empty):
             print('    Window is empty.')
         else:
             print('    Window is complete.')
 
 
 class Cellar(Place):
-    def __init__(self, owner, type = 1, door = 3):
-        """   door    0:closed    1:open    2:locked    3:does not exist  """
+    def __init__(self, owner, type = base.PlaceType.Cellar, door = base.Door.NotExist):
         super().__init__(type)
         self.owner = owner
         self.door = door
@@ -43,17 +41,17 @@ class Cellar(Place):
     def PrintInfo(self):
         self.PrintName()
         print(':')
-        if (self.door == 0):
+        if (self.door == base.Door.Closed):
             print('    Cellar door is closed.')
-        elif (self.door == 1):
+        elif (self.door == base.Door.Open):
             print('    Cellar door is open.')
-        elif (self.door == 2):
+        elif (self.door == base.Door.Locked):
             print('    Cellar door is locked.')
         else:
             print('    Cellar not exist.')
 
 class OutsideHome(Place):
-    def __init__(self, owner, type = 2):
+    def __init__(self, owner, type = base.PlaceType.OutsideHome):
         super().__init__(type)
         self.owner = owner
 
@@ -61,7 +59,7 @@ class OutsideHome(Place):
         print('outside ' + self.owner.name + '\'s home', end = '')
 
 class Market(Place):
-    def __init__(self, name, type = 3, broken = 0, owner = 'God'):
+    def __init__(self, name, type = base.PlaceType.Market, broken = 0, owner = 'God'):
         super().__init__(type)
         self.name = name
         self.broken = broken
@@ -78,7 +76,7 @@ class Market(Place):
             print(' is open.')
 
 class BlackMarket(Place):
-    def __init__(self, name = 'Black Market', type = 4, owner = 'God'):
+    def __init__(self, name = 'Black Market', type = base.PlaceType.BlackMarket, owner = 'God'):
         super().__init__(type)
         self.name = name
         self.owner = owner
@@ -87,7 +85,7 @@ class BlackMarket(Place):
         print(self.name, end = '')
 
 class Car(Place):
-    def __init__(self, owner, type = 5):
+    def __init__(self, owner, type = base.PlaceType.Car):
         self.owner = owner
         super().__init__(type)
         
@@ -95,7 +93,7 @@ class Car(Place):
         print(self.owner.name + '\'s car', end = '')
 
 class OutsideCar(Place):
-    def __init__(self, owner, type = 6):
+    def __init__(self, owner, type = base.PlaceType.OutsideCar):
         self.owner = owner
         super().__init__(type)
 
@@ -103,7 +101,7 @@ class OutsideCar(Place):
         print('outside ' + self.owner.name + '\'s car', end = '')
     
 class AmbushPoint(Place):
-    def __init__(self, belong, owner, type = 7):
+    def __init__(self, belong, owner, type = base.PlaceType.AmbushPoint):
         super().__init__(type)
         self.belong = belong
         self.owner = owner
