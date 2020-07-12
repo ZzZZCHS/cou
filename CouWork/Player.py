@@ -351,6 +351,10 @@ class Player(Person):
             if (do):
                 self.aim = target.pid
             return True
+        if (self.plc.type == 0 and target.plc.type == 1 and self.plc.owner == target.plc.owner):
+            if (do):
+                self.aim = target.pid
+            return True
         if (self.plc.type == 7 and target.plc.type == 7 and self.plc.belong == target.plc.belong):
             if (do):
                 self.aim = target.pid
