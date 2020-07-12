@@ -363,15 +363,19 @@ class Player(Person):
             if (do):
                 self.aim = target.pid
             return True
-        if (self.plc.type == base.PlaceType.Home and (target.plc.type == base.PlaceType.OutsideHome or target.plc.type == base.PlaceType.OutsideCar) and self.plc.owner == target.plc.owner):
+        if (self.plc.type == base.PlaceType.Home and (target.plc.type == base.PlaceType.OutsideHome or target.plc.type == base.PlaceType.OutsideCar) and self.plc.owner == target.plc.owner and self.plc.window == base.Window.Empty):
             if (do):
                 self.aim = target.pid
             return True
         if (self.plc.type == base.PlaceType.OutsideHome and (target.plc.type == base.PlaceType.Home or target.plc.type == base.PlaceType.OutsideCar) and self.plc.owner == target.plc.owner):
+            if (target.plc.type == base.PlaceType.Home and target.plc.window == base.Window.Installed):
+                return False
             if (do):
                 self.aim = target.pid
             return True
         if (self.plc.type == base.PlaceType.OutsideCar and (target.plc.type == base.PlaceType.OutsideHome or target.plc.type == base.PlaceType.Home) and self.plc.owner == target.plc.owner):
+            if (target.plc.type == base.PlaceType.Home and target.plc.window == base.Window.Installed):
+                return False
             if (do):
                 self.aim = target.pid
             return True
