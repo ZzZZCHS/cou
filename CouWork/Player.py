@@ -50,13 +50,13 @@ class Player(Person):
     def OpenDoor(self, do = 0):
         if (self.plc.type == base.PlaceType.Home and self.plc.door == base.Door.Closed): 
             if (do):
-                self.plc.door = base.Window.Open
+                self.plc.door = base.Door.Open
             return True
         if (self.plc.type == base.PlaceType.OutsideHome):
             for tmp in base.homeList:
                 if (tmp.owner == self.plc.owner and tmp.door == base.Door.Closed):
                     if (do):
-                        tmp.door = base.Window.Open
+                        tmp.door = base.Door.Open
                     return True
         #print('Invalid action!')
         return False
@@ -64,13 +64,13 @@ class Player(Person):
     def CloseDoor(self, do = 0):
         if (self.plc.type == base.PlaceType.Home and self.plc.door == base.Door.Open):
             if (do):
-                self.plc.door = base.Window.Closed
+                self.plc.door = base.Door.Closed
             return True
         if (self.plc.type == base.PlaceType.OutsideHome):
             for tmp in base.homeList:
                 if (tmp.owner == self.plc.owner and tmp.door == base.Door.Open):
                     if (do):
-                        tmp.door = base.Window.Closed
+                        tmp.door = base.Door.Closed
                     return True
         #print('Invalid action!')
         return False
@@ -78,7 +78,7 @@ class Player(Person):
     def LockDoor(self, do = 0):
         if (self.plc.type == base.PlaceType.Home and self.plc.door == base.Door.Closed):
             if (do):
-                self.plc.door = base.Window.Locked
+                self.plc.door = base.Door.Locked
             return True
         #print('Invalid action!')
         return False
@@ -88,11 +88,11 @@ class Player(Person):
             for tmp in base.homeList:
                 if (tmp.owner == self.plc.owner and tmp.door == base.Door.Locked):
                     if (do):
-                        tmp.door = base.Window.Closed
+                        tmp.door = base.Door.Closed
                     return True
         if (self.plc.type == base.PlaceType.Cellar and self.plc.door == base.Door.Locked):
             if (do):
-                self.plc.door = base.Window.Closed
+                self.plc.door = base.Door.Closed
             return True
         #print('Invalid action!')
         return False
@@ -120,7 +120,7 @@ class Player(Person):
             for tmp in base.cellarList:
                 if (tmp.owner == self.plc.owner and tmp.door == base.Door.NotExist):
                     if (do):
-                        tmp.door = base.Window.Open
+                        tmp.door = base.Door.Open
                     return True
         #print('Invalid action!')
         return False
@@ -128,13 +128,13 @@ class Player(Person):
     def OpenCellarDoor(self, do = 0):
         if (self.plc.type == base.PlaceType.Cellar and self.plc.door == base.Door.Closed):
             if (do):
-                self.plc.door = base.Window.Open
+                self.plc.door = base.Door.Open
             return True
         if (self.plc.type == base.PlaceType.Home):
             for tmp in base.cellarList:
                 if (tmp.owner == self.plc.owner and tmp.door == base.Door.Closed):
                     if (do):
-                        tmp.door = base.Window.Open
+                        tmp.door = base.Door.Open
                     return True
         #print('Invalid action!')
         return False
@@ -142,13 +142,13 @@ class Player(Person):
     def CloseCellarDoor(self, do = 0):
         if (self.plc.type == base.PlaceType.Cellar and self.plc.door == base.Door.Open):
             if (do):
-                self.plc.door = base.Window.Closed
+                self.plc.door = base.Door.Closed
             return True
         if (self.plc.type == base.PlaceType.Home):
             for tmp in base.cellarList:
                 if (tmp.owner == self.plc.owner and tmp.door == base.Door.Open):
                     if (do):
-                        tmp.door = base.Window.Closed
+                        tmp.door = base.Door.Closed
                     return True
         #print('Invalid action!')
         return False
@@ -156,13 +156,13 @@ class Player(Person):
     def LockCellarDoor(self, do = 0):
         if (self.plc.type == base.PlaceType.Cellar and self.plc.door == base.Door.Closed):
             if (do):
-                self.plc.door = base.Window.Locked
+                self.plc.door = base.Door.Locked
             return True
         if (self.plc.type == base.PlaceType.Home):
             for tmp in base.cellarList:
                 if (tmp.owner == self.plc.owner and tmp.door == base.Door.Closed):
                     if (do):
-                        tmp.door = base.Window.Locked
+                        tmp.door = base.Door.Locked
                     return True
         #print('Invalid action!')
         return False
@@ -170,13 +170,13 @@ class Player(Person):
     def UnlockCellarDoor(self, do = 0):
         if (self.plc.type == base.PlaceType.Cellar and self.plc.door == base.Door.Locked):
             if (do):
-                self.plc.door = base.Window.Closed
+                self.plc.door = base.Door.Closed
             return True
         if (self.plc.type == base.PlaceType.Home):
             for tmp in base.cellarList:
                 if (tmp.owner == self.plc.owner and tmp.door == base.Door.Locked):
                     if (do):
-                        tmp.door = base.Window.Closed
+                        tmp.door = base.Door.Closed
                     return True
         #print('Invalid action!')
         return False
