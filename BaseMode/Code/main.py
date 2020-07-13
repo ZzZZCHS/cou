@@ -17,7 +17,6 @@ import base
 import random
 import math
 
-
 def main():
 
     #建立商店

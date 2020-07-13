@@ -196,7 +196,7 @@ class Player(Person):
         return False
 
     def PushIntoCellar(self, target, do = 0):
-        if (self == target):
+        if (self == target or target.hp <= 0):
             return False
         if (self.plc.type == base.PlaceType.Home and target.plc.type == base.PlaceType.Home and self.plc.owner == target.plc.owner):
             for tmp in base.cellarList:
@@ -212,7 +212,7 @@ class Player(Person):
         return False
 
     def PullOutCellar(self, target, do = 0):
-        if (self == target):
+        if (self == target or target.hp <= 0):
             return False
         if (self.plc.type == base.PlaceType.Home and target.plc.type == base.PlaceType.Cellar and self.plc.owner == target.plc.owner and target.plc.door == base.Door.Open):
             if (do):
@@ -236,7 +236,7 @@ class Player(Person):
         return False
 
     def PullOffCar(self, target, do = 0):
-        if (self == target):
+        if (self == target or target.hp <= 0):
             return False
         if (target.plc.type == base.PlaceType.Car and self.plc.type == base.PlaceType.OutsideCar and self.plc.owner == target):
             if (do):
@@ -246,7 +246,7 @@ class Player(Person):
         return False
 
     def PushIntoHome(self, target, do = 0):
-        if (self == target):
+        if (self == target or target.hp <= 0):
             return False
         if (target.plc.type == base.PlaceType.OutsideHome and self.plc.type == base.PlaceType.OutsideHome and self.plc.owner == target.plc.owner):
             for tmp in base.homeList:
@@ -308,7 +308,7 @@ class Player(Person):
         return False
 
     def Stab(self, target, do = 0):
-        if (self == target or target.turnwinner == 1):
+        if (self == target or target.turnwinner == 1 or target.hp <= 0):
             return False
         if (self.plc == target.plc and self.knife > 0):
             if (do):
@@ -320,7 +320,7 @@ class Player(Person):
         return False
 
     def Shot(self, target, do = 0):
-        if (self == target or target.turnwinner == 1):
+        if (self == target or target.turnwinner == 1 or target.hp <= 0):
             return False
         if (self.gun == 0):
             #print('Invalid action!')
@@ -335,7 +335,7 @@ class Player(Person):
         return False
     
     def Search(self, target, do = 0):
-        if (self == target):
+        if (self == target or target.hp <= 0):
             return False
         if (target.plc.type != base.PlaceType.AmbushPoint or self.gun == 0 or self.vislist[target.pid] == 1):
             #print('Invalid action!')
@@ -363,7 +363,7 @@ class Player(Person):
         return False
     
     def AimAt(self, target, do = 0):
-        if (self == target):
+        if (self == target or target.hp <= 0):
             return False
         if (self.gun == 0 or self.vislist[target.pid] == 0):
             #print('Invalid action!')
@@ -485,7 +485,7 @@ class Player(Person):
             return False
         if (B.type == base.PlaceType.OutsideCar and (B.owner.plc.type != base.PlaceType.Car or B.owner == A.owner)):
             return False
-        if (B.type == base.PlaceType.AmbushPoint and B.owner.plc != B):
+        if (B.type == base.PlaceType.AmbushPoint and (B.owner.plc != B or B.owner.hp <= 0)):
             return False
         if (A.type == base.PlaceType.Home):
             if (B.type == base.PlaceType.Cellar and B.door == base.Door.Open and B.owner == A.owner):
