@@ -171,6 +171,7 @@ def GameDecision(nowid, do = 0):
                 target.PrintName()
                 print()
             if (do == now):
+                FLAG = 0
                 plr.Shot(target, 1)
     for target in base.playerList:
         if (plr.Search(target)):
@@ -222,7 +223,8 @@ def GameDecision(nowid, do = 0):
     if (FLAG and do > 0):
         plr.aim = -1
     now += 1
-    print('%2d: do nothing' % now)
+    if (do == 0):
+         print('%2d: do nothing' % now)
     return now
 
 def CountAlive():

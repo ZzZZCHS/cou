@@ -106,9 +106,17 @@ class Player(Person):
         return False
 
     def ShotWindow(self, do = 0):
-        if (self.gun > 0 and (self.plc.type == base.PlaceType.OutsideHome or self.plc.type == base.PlaceType.OutsideCar)):
+        if (self.gun == 0):
+            return False
+        if (self.plc.type == base.PlaceType.OutsideHome or self.plc.type == base.PlaceType.OutsideCar):
             for tmp in base.homeList:
                 if (tmp.owner == self.plc.owner and tmp.window == base.Window.Installed):
+                    if (do):
+                        tmp.window = base.Window.Empty
+                    return True
+        if (self.plc.type == base.PlaceType.AmbushPoint and self.plc.belong.type == base.PlaceType.OutsideHome):
+            for tmp in base.homeList:
+                if (tmp.owner == self.plc.belong.owner and tmp.window == base.Window.Installed):
                     if (do):
                         tmp.window = base.Window.Empty
                     return True
@@ -323,7 +331,7 @@ class Player(Person):
     def Search(self, target, do = 0):
         if (self == target):
             return False
-        if (target.plc.type != base.PlaceType.AmbushPoint or self.gun == 0):
+        if (target.plc.type != base.PlaceType.AmbushPoint or self.gun == 0 or self.vislist[target.pid] == 1):
             #print('Invalid action!')
             return False
         if (target.plc.belong == self.plc):
@@ -334,6 +342,17 @@ class Player(Person):
             if (do):
                 self.vislist[target.pid] = 1
             return True
+        if (self.plc.type == base.PlaceType.Home or self.plc.type == base.PlaceType.OutsideHome or self.plc.type == base.PlaceType.OutsideCar):
+            if (target.plc.belong.owner == self.plc.owner):
+                if (do):
+                    self.vislist[target.pid] = 1
+                return True
+        if (self.plc.type == base.PlaceType.AmbushPoint and self.plc.belong.owner == target.plc.belong.owner):
+            s_type = self.plc.belong.type
+            if (s_type == base.PlaceType.Home or s_type == base.PlaceType.OutsideHome or s_type == base.PlaceType.OutsideCar):
+                if (do):
+                    self.vislist[target.pid] = 1
+                return True
         #print('Invalid action!')
         return False
     
@@ -363,27 +382,55 @@ class Player(Person):
             if (do):
                 self.aim = target.pid
             return True
-        if (self.plc.type == base.PlaceType.Home and (target.plc.type == base.PlaceType.OutsideHome or target.plc.type == base.PlaceType.OutsideCar) and self.plc.owner == target.plc.owner and self.plc.window == base.Window.Empty):
-            if (do):
-                self.aim = target.pid
-            return True
-        if (self.plc.type == base.PlaceType.OutsideHome and (target.plc.type == base.PlaceType.Home or target.plc.type == base.PlaceType.OutsideCar) and self.plc.owner == target.plc.owner):
-            if (target.plc.type == base.PlaceType.Home and target.plc.window == base.Window.Installed):
-                return False
-            if (do):
-                self.aim = target.pid
-            return True
-        if (self.plc.type == base.PlaceType.OutsideCar and (target.plc.type == base.PlaceType.OutsideHome or target.plc.type == base.PlaceType.Home) and self.plc.owner == target.plc.owner):
-            if (target.plc.type == base.PlaceType.Home and target.plc.window == base.Window.Installed):
-                return False
-            if (do):
-                self.aim = target.pid
-            return True
+        if (self.plc.type == base.PlaceType.Home and self.plc.window == base.Window.Empty):
+            if ((target.plc.type == base.PlaceType.OutsideHome or target.plc.type == base.PlaceType.OutsideCar) and self.plc.owner == target.plc.owner):
+                if (do):
+                    self.aim = target.pid
+                return True
+            if (target.plc.type == base.PlaceType.AmbushPoint and target.plc.belong.owner == self.plc.owner):
+                if (do):
+                    self.aim = target.pid
+                return True
+        if (self.plc.type == base.PlaceType.OutsideHome):
+            if (target.plc.type == base.PlaceType.Home and target.plc.window == base.Window.Empty and self.plc.owner == target.plc.owner):
+                if (do):
+                    self.aim = target.pid
+                return True
+            if (target.plc.type == base.PlaceType.OutsideCar and self.plc.owner == target.plc.owner):
+                if (do):
+                    self.aim = target.pid
+                return True
+            if (target.plc.type == base.PlaceType.AmbushPoint and target.plc.belong.owner == self.plc.owner):
+                if (do):
+                    self.aim = target.pid
+                return True
+        if (self.plc.type == base.PlaceType.OutsideCar):
+            if (target.plc.type == base.PlaceType.Home and target.plc.window == base.Window.Empty and self.plc.owner == target.plc.owner):
+                if (do):
+                    self.aim = target.pid
+                return True
+            if (target.plc.type == base.PlaceType.OutsideHome and self.plc.owner == target.plc.owner):
+                if (do):
+                    self.aim = target.pid
+                return True
+            if (target.plc.type == base.PlaceType.AmbushPoint and target.plc.belong.owner == self.plc.owner):
+                if (do):
+                    self.aim = target.pid
+                return True
+        if (self.plc.type == base.PlaceType.AmbushPoint and self.plc.belong.owner == target.plc.owner):
+            if (target.plc.type == base.PlaceType.Home and target.plc.window == base.Window.Empty):
+                if (do):
+                    self.aim = target.pid
+                return True
+            if (target.plc.type == base.PlaceType.OutsideCar or target.plc.type == base.PlaceType.OutsideHome):
+                if (do):
+                    self.aim = target.pid
+                return True
         #print('Invalid action!')
         return False
 
     def Ambush(self, targetplc, do = 0):
-        if (self.plc.type == base.PlaceType.Car):
+        if (self.plc.type == base.PlaceType.Car or self.plc.type == base.PlaceType.OutsideCar):
             return False
         if (targetplc.type == base.PlaceType.Home or targetplc.type == base.PlaceType.Cellar or targetplc.type == base.PlaceType.AmbushPoint):
             return False
