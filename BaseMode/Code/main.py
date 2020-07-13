@@ -76,6 +76,16 @@ def main():
                 base.playerActionOrder[tempCount] = tempInt
                 tempCount += 1
 
+        #更新玩家的回合信息
+        for i in range(0, base.playerNum):
+            if (base.playerDiceList[i] == 1):
+                base.playerList[i].turnwinner = 1
+                base.playerList[i].leftstep = base.RoundActionStep
+            else:
+                base.playerList[i].turnwinner = 0
+                base.playerList[i].leftstep = 0
+
+        #游戏进程
         for i in range(0, base.playerNum):
             nowID = base.playerActionOrder[i]
             nowPlayer = base.playerList[nowID]
@@ -94,6 +104,7 @@ def main():
                     break
                 Game.GameDecision(nowID, CommandIn)
                 base.alivePlayerNum = Game.CountAlive()
+                base.playerList[i].leftstep -= 1
         
         if (base.alivePlayerNum == 1):
             for plr in base.playerList:

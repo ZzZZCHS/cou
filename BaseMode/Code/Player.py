@@ -18,7 +18,7 @@ class Player(Person):
     """玩家"""
 
     def __init__(self, name, pid, plc, hp = MAX_HP, knife = 0, 
-                 biscuit = 0, gun = 0, cardone = 0, aim = -1):
+                 biscuit = 0, gun = 0, cardone = 0, aim = -1, turnwinner = 0, leftstep = 0):
         """ pid       the id of the player           """
         """ cardone   whether finish the car driving """
         """ vislist   the visibility of each player  """
@@ -32,6 +32,8 @@ class Player(Person):
         self.cardone = cardone
         self.aim = aim
         self.vislist = [1] * base.playerNum
+        self.turnwinner = turnwinner
+        self.leftstep = leftstep
 
     def PrintName(self):
         print('Player%d: %s' % (self.pid + 1, self.name), end = '')
@@ -46,6 +48,10 @@ class Player(Person):
             print('    no aim target')
         else:
             print('    aim at Player%d: %s' % (self.aim + 1, base.playerList[self.aim].name))
+        if (self.turnwinner):
+            print('    He/She is the winner of this turn, having %d step(s) left.' % self.leftstep)
+        else:
+            print('    He/She is the loser of this turn.')
 
     def OpenDoor(self, do = 0):
         if (self.plc.type == base.PlaceType.Home and self.plc.door == base.Door.Closed): 
@@ -302,7 +308,7 @@ class Player(Person):
         return False
 
     def Stab(self, target, do = 0):
-        if (self == target):
+        if (self == target or target.turnwinner == 1):
             return False
         if (self.plc == target.plc and self.knife > 0):
             if (do):
@@ -314,7 +320,7 @@ class Player(Person):
         return False
 
     def Shot(self, target, do = 0):
-        if (self == target):
+        if (self == target or target.turnwinner == 1):
             return False
         if (self.gun == 0):
             #print('Invalid action!')
