@@ -1,7 +1,7 @@
 from Place import Place, Home, Cellar, OutsideHome, Market, BlackMarket, Car, OutsideCar, AmbushPoint
 import base
 
-MAX_HP = 3
+base.MAX_HP = 3
 
 class Person(object):
     """人物"""
@@ -14,7 +14,7 @@ class Person(object):
 class Player(Person):
     """玩家"""
 
-    def __init__(self, name, pid, plc, hp = MAX_HP, knife = 0, 
+    def __init__(self, name, pid, plc, hp = base.MAX_HP, knife = 0, 
                  biscuit = 0, gun = 0, cardone = 0, aim = -1, turnwinner = 0, leftstep = 0):
         """ pid       the id of the player           """
         """ cardone   whether finish the car driving """
@@ -291,7 +291,7 @@ class Player(Person):
             if (do):
                 self.biscuit -= 1
                 self.hp += 1
-                if (self.hp > MAX_HP): self.hp = MAX_HP
+                if (self.hp > base.MAX_HP): self.hp = base.MAX_HP
             return True
         #print('Invalid action!')
         return False

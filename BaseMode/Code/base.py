@@ -23,6 +23,7 @@ class Window(IntEnum):
     Empty = 0
     Installed = 1
 
+MAX_HP = 3
 
 homeList = []
 outhomeList = []
