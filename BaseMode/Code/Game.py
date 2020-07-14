@@ -1,19 +1,8 @@
-from Place import Place
-from Place import Home
-from Place import Cellar
-from Place import OutsideHome
-from Place import Market
-from Place import BlackMarket
-from Place import Car
-from Place import OutsideCar
-from Place import AmbushPoint
-
+from Place import Place, Home, Cellar, OutsideHome, Market, BlackMarket, Car, OutsideCar, AmbushPoint
 from Player import Player
-
 import base
 
-def GameDecision(nowid, do = 0):
-    plr = base.playerList[nowid]
+def GameDecision(plr, do = 0):
     now = 0
     FLAG = 1
     if (plr.OpenDoor()):
@@ -233,3 +222,22 @@ def CountAlive():
         if (plr.hp > 0):
             num += 1
     return num
+
+def UpdatePlayerTurnInfo():
+    for i in range(0, base.playerNum):
+        if (base.playerDiceList[i] == 1):
+            base.playerList[i].turnwinner = 1
+            base.playerList[i].leftstep = base.RoundActionStep
+        else:
+            base.playerList[i].turnwinner = 0
+            base.playerList[i].leftstep = 0
+
+def GameEndCheck():
+    if (base.alivePlayerNum == 1):
+        for plr in base.playerList:
+            if (plr.hp > 0):
+                print('Winner: ', end='')
+                plr.PrintName()
+                input()
+        return True
+    return False

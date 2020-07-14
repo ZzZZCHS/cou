@@ -1,7 +1,4 @@
-from Place import Home
-from Place import OutsideHome
-from Place import Car
-
+from Place import Place, Home, Cellar, OutsideHome, Market, BlackMarket, Car, OutsideCar, AmbushPoint
 import base
 
 MAX_HP = 3
@@ -96,7 +93,7 @@ class Player(Person):
                     if (do):
                         tmp.door = base.Door.Closed
                     return True
-        if (self.plc.type == base.PlaceType.Cellar and self.plc.door == base.Door.Locked):
+        if (self.plc.type == base.PlaceType.Home and self.plc.door == base.Door.Locked):
             if (do):
                 self.plc.door = base.Door.Closed
             return True
@@ -515,6 +512,9 @@ class Player(Person):
                 return True
             return False
         return False
+
+    def CountStep(self, target):
+        pass
 
 if __name__ == '__main__':
     pass
