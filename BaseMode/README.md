@@ -26,7 +26,7 @@ cou-BaseMode开门坐车基础版主要部分采用Python语言。
 
 ### 简便办法
 
-解压BaseMode.zip，获得名为main的可执行文件，点击可执行文件。
+解压BaseMode.zip，获得名为main的可执行文件(for mac)，点击可执行文件。
 
 
 
